@@ -16,7 +16,7 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
-  roles         String[]  // Provider, Reviewer, AdminFull, AdminReadOnly
+  roles         String[] // Provider, Reviewer, AdminFull, AdminReadOnly
   status        String    @default("pending") // draft, pending, approved
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -29,6 +29,8 @@ model User {
   courses        Course[]
   auditLogs      AuditLog[]    @relation("UserAuditLogs")
   targetLogs     AuditLog[]    @relation("TargetAuditLogs")
+  Framework      Framework[]
+  Speaker        Speaker[]
 }
 
 model Organization {
@@ -39,20 +41,22 @@ model Organization {
   updatedAt DateTime @updatedAt
 
   // Relations
-  users   User[]
-  courses Course[]
+  users     User[]
+  courses   Course[]
+  Framework Framework[]
+  Speaker   Speaker[]
 }
 
 model VerificationToken {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String?  // For compatibility with NextAuth
-  email     String
-  token     String   @unique
-  expires   DateTime
-  status    String   @default("active") // active, used, expired
-  role      String?  // Provider, Reviewer, AdminFull, AdminReadOnly
-  orgId     String?  @db.ObjectId // For team invitations
-  createdAt DateTime @default(now())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String? // For compatibility with NextAuth
+  email      String
+  token      String   @unique
+  expires    DateTime
+  status     String   @default("active") // active, used, expired
+  role       String? // Provider, Reviewer, AdminFull, AdminReadOnly
+  orgId      String?  @db.ObjectId // For team invitations
+  createdAt  DateTime @default(now())
 
   @@unique([email, token])
 }
@@ -85,7 +89,7 @@ model Session {
 }
 
 model Course {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
   outcomes    String
@@ -93,24 +97,73 @@ model Course {
   pedagogy    String?
   policies    String?
   teacherBios String?
-  status      String   @default("pending") // pending, approved, rejected
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status      CourseStatus @default(draft)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   // Relations
-  user           User           @relation(fields: [userId], references: [id])
-  userId         String         @db.ObjectId
-  organization   Organization   @relation(fields: [organizationId], references: [id])
-  organizationId String         @db.ObjectId
+  user           User              @relation(fields: [userId], references: [id])
+  userId         String            @db.ObjectId
+  organization   Organization      @relation(fields: [organizationId], references: [id])
+  organizationId String            @db.ObjectId
   sessions       CourseSession[]
   reviews        CourseReview[]
+  frameworks     CourseFramework[]
+}
+
+enum CourseStatus {
+  draft
+  submitted
+  awaiting_payment
+  in_peer_review
+  awaiting_feedback
+  approved
+  scheduling
+  delivered
+}
+
+model Framework {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  organization   Organization?     @relation(fields: [organizationId], references: [id])
+  organizationId String?           @db.ObjectId
+  user           User              @relation(fields: [userId], references: [id])
+  userId         String            @db.ObjectId
+  courses        CourseFramework[]
+}
+
+model Speaker {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?       @db.ObjectId
+  user           User          @relation(fields: [userId], references: [id])
+  userId         String        @db.ObjectId
+}
+
+model CourseFramework {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId    String    @db.ObjectId
+  framework   Framework @relation(fields: [frameworkId], references: [id], onDelete: Cascade)
+  frameworkId String    @db.ObjectId
 }
 
 model CourseSession {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   teacher     String
-  duration    Int      // in minutes
+  duration    Int // in minutes
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -123,7 +176,7 @@ model CourseSession {
 model CourseReview {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   comment   String
-  status    String   // approved, rejected
+  status    String // approved, rejected
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -139,8 +192,8 @@ model AuditLog {
   createdAt DateTime @default(now())
 
   // Relations
-  user     User   @relation("UserAuditLogs", fields: [userId], references: [id])
-  userId   String @db.ObjectId
+  user     User    @relation("UserAuditLogs", fields: [userId], references: [id])
+  userId   String  @db.ObjectId
   targetId String? @db.ObjectId
-  target   User?  @relation("TargetAuditLogs", fields: [targetId], references: [id])
+  target   User?   @relation("TargetAuditLogs", fields: [targetId], references: [id])
 }
