@@ -69,6 +69,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   const [userExists, setUserExists] = useState<boolean | null>(null)
   const [remainingAttempts, setRemainingAttempts] = useState(3)
   const [timeUntilReset, setTimeUntilReset] = useState(0)
+  const [jwtToken, setJwtToken] = useState<string | null>(null)
 
   // Reset states when modal opens/closes
   useEffect(() => {
@@ -81,6 +82,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       setEmail('')
       setConfirmEmail('')
       setUserExists(null)
+      setJwtToken(null)
     }
   }, [isOpen])
 
@@ -126,6 +128,22 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
     }
   }
 
+  const requestDevToken = async (email: string) => {
+    try {
+      const res = await fetch('/api/auth/dev-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      const data = await res.json()
+      if (data.token) {
+        setJwtToken(data.token)
+      }
+    } catch (err) {
+      console.error('Error requesting dev token:', err)
+    }
+  }
+
   // Handle initial email submission
   const handleInitialSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -157,11 +175,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       if (exists) {
         // Existing user flow - send OTP directly
         console.log('Existing user, sending OTP to:', email)
-        const result = await signIn('email', { 
-          email, 
+        const result = await signIn('email', {
+          email,
           redirect: false,
           callbackUrl: window.location.pathname
         })
+
+        await requestDevToken(email)
         
         console.log('SignIn result:', result)
         
@@ -208,11 +228,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       // Send OTP for account creation (10 min expiry)
       // Use try-catch to handle any errors from signIn
       try {
-        const result = await signIn('email', { 
-          email, 
+        const result = await signIn('email', {
+          email,
           redirect: false, // Important: prevent automatic redirect
           callbackUrl: window.location.pathname // Stay on current page
         })
+
+        await requestDevToken(email)
         
         console.log('SignIn result for new user:', result)
         
@@ -471,10 +493,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
             </svg>
             <h3 className="text-xl font-medium text-gray-900 mb-2">Email Sent Successfully</h3>
             <p className="text-gray-600 mb-4">
-              {userExists 
-                ? "Please check your email for a sign-in link." 
+              {userExists
+                ? "Please check your email for a sign-in link."
                 : "Please check your email to create your account."}
             </p>
+            {jwtToken && (
+              <div className="mb-4 p-2 bg-gray-100 rounded break-all text-left">
+                <p className="font-semibold mb-1">Development JWT:</p>
+                <pre className="whitespace-pre-wrap break-all text-xs">{jwtToken}</pre>
+              </div>
+            )}
             <button
               onClick={onClose}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
