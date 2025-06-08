@@ -2,3 +2,9 @@ node_modules
 .env
 .next
 
+
+# Build artifacts
+*.log
+server-monitor.log
+scripts/server-monitor.log
+tsconfig.tsbuildinfo
