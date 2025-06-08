@@ -69,6 +69,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   const [userExists, setUserExists] = useState<boolean | null>(null)
   const [remainingAttempts, setRemainingAttempts] = useState(3)
   const [timeUntilReset, setTimeUntilReset] = useState(0)
+  const [magicLink, setMagicLink] = useState<string | null>(null)
 
   // Reset states when modal opens/closes
   useEffect(() => {
@@ -81,6 +82,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       setEmail('')
       setConfirmEmail('')
       setUserExists(null)
+      setMagicLink(null)
     }
   }, [isOpen])
 
@@ -126,6 +128,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
     }
   }
 
+  const fetchMagicLink = async (email: string) => {
+    try {
+      const res = await fetch(`/api/auth/dev-magic-link?email=${encodeURIComponent(email)}`)
+      const data = await res.json()
+      if (data.url) {
+        const localUrl = data.url.replace(/^https?:\/\/[^/]+/, 'http://localhost:3000')
+        setMagicLink(localUrl)
+      }
+    } catch (err) {
+      console.error('Error fetching magic link:', err)
+    }
+  }
+
   // Handle initial email submission
   const handleInitialSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -157,11 +172,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       if (exists) {
         // Existing user flow - send OTP directly
         console.log('Existing user, sending OTP to:', email)
-        const result = await signIn('email', { 
-          email, 
+        const result = await signIn('email', {
+          email,
           redirect: false,
           callbackUrl: window.location.pathname
         })
+
+        await fetchMagicLink(email)
         
         console.log('SignIn result:', result)
         
@@ -208,11 +225,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       // Send OTP for account creation (10 min expiry)
       // Use try-catch to handle any errors from signIn
       try {
-        const result = await signIn('email', { 
-          email, 
+        const result = await signIn('email', {
+          email,
           redirect: false, // Important: prevent automatic redirect
           callbackUrl: window.location.pathname // Stay on current page
         })
+
+        await fetchMagicLink(email)
         
         console.log('SignIn result for new user:', result)
         
@@ -293,10 +312,15 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           <div>
             <p className="font-medium">Email sent - check your email</p>
             <p className="text-sm">
-              {userExists 
-                ? "Sign in link sent to your email" 
+              {userExists
+                ? "Sign in link sent to your email"
                 : "Account creation link sent to your email"}
             </p>
+            {magicLink && (
+              <p className="text-sm break-all">
+                <a className="underline" href={magicLink} target="_blank" rel="noopener noreferrer">Magic link</a>
+              </p>
+            )}
             <p className="text-sm">Closing in {countdown} seconds...</p>
           </div>
         </div>
@@ -471,8 +495,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
             </svg>
             <h3 className="text-xl font-medium text-gray-900 mb-2">Email Sent Successfully</h3>
             <p className="text-gray-600 mb-4">
-              {userExists 
-                ? "Please check your email for a sign-in link." 
+              {userExists
+                ? "Please check your email for a sign-in link."
                 : "Please check your email to create your account."}
             </p>
             <button
