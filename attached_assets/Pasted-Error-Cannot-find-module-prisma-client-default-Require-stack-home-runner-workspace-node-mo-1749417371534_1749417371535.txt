@@ -1,0 +1,103 @@
+Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /home/runner/workspace/node_modules/@prisma/client/default.js
+- /home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js
+- /home/runner/workspace/node_modules/next/dist/server/require.js
+- /home/runner/workspace/node_modules/next/dist/server/load-components.js
+- /home/runner/workspace/node_modules/next/dist/build/utils.js
+- /home/runner/workspace/node_modules/next/dist/server/dev/hot-middleware.js
+- /home/runner/workspace/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /home/runner/workspace/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /home/runner/workspace/node_modules/next/dist/server/lib/router-server.js
+- /home/runner/workspace/node_modules/next/dist/server/lib/start-server.js
+
+This error happened while generating the page. Any console logs will be displayed in the terminal window.
+Call Stack
+Module._resolveFilename
+node:internal/modules/cjs/loader (1225:15)
+<unknown>
+file:///home/runner/workspace/node_modules/next/dist/server/require-hook.js (54:36)
+Module._load
+node:internal/modules/cjs/loader (1051:27)
+Module.require
+node:internal/modules/cjs/loader (1311:19)
+mod.require
+file:///home/runner/workspace/node_modules/next/dist/server/require-hook.js (64:28)
+require
+node:internal/modules/helpers (179:18)
+Object.<anonymous>
+file:///home/runner/workspace/node_modules/@prisma/client/default.js (2:6)
+Module._compile
+node:internal/modules/cjs/loader (1469:14)
+Module._extensions..js
+node:internal/modules/cjs/loader (1548:10)
+Module.load
+node:internal/modules/cjs/loader (1288:32)
+Module._load
+node:internal/modules/cjs/loader (1104:12)
+Module.require
+node:internal/modules/cjs/loader (1311:19)
+mod.require
+file:///home/runner/workspace/node_modules/next/dist/server/require-hook.js (64:28)
+require
+node:internal/modules/helpers (179:18)
+@prisma/client
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (22:18)
+__webpack_require__
+file:///home/runner/workspace/.next/server/webpack-runtime.js (33:43)
+eval
+webpack-internal:/(rsc)/src/lib/prisma.ts (5:72)
+(rsc)/./src/lib/prisma.ts
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (292:1)
+__webpack_require__
+file:///home/runner/workspace/.next/server/webpack-runtime.js (33:43)
+eval
+webpack-internal:/(rsc)/src/lib/auth.ts (13:65)
+(rsc)/./src/lib/auth.ts
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (272:1)
+__webpack_require__
+file:///home/runner/workspace/.next/server/webpack-runtime.js (33:43)
+eval
+webpack-internal:/(rsc)/src/app/api/auth/[...nextauth]/route.ts (9:67)
+(rsc)/./src/app/api/auth/[...nextauth]/route.ts
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (262:1)
+__webpack_require__
+file:///home/runner/workspace/.next/server/webpack-runtime.js (33:43)
+eval
+webpack-internal:/(rsc)/node_modules/next/dist/build/webpack/loaders/next-app-loader.js (16:115)
+(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2Fapi%2Fauth%2F%5B...nextauth%5D%2Froute&page=%2Fapi%2Fauth%2F%5B...nextauth%5D%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Fauth%2F%5B...nextauth%5D%2Froute.ts&appDir=%2Fhome%2Frunner%2Fworkspace%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fhome%2Frunner%2Fworkspace&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (252:1)
+__webpack_require__
+file:///home/runner/workspace/.next/server/webpack-runtime.js (33:43)
+__webpack_exec__
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (302:39)
+<unknown>
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (303:428)
+__webpack_require__.X
+file:///home/runner/workspace/.next/server/webpack-runtime.js (163:21)
+<unknown>
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (303:47)
+Object.<anonymous>
+file:///home/runner/workspace/.next/server/app/api/auth/[...nextauth]/route.js (306:3)
+Module._compile
+node:internal/modules/cjs/loader (1469:14)
+Module._extensions..js
+node:internal/modules/cjs/loader (1548:10)
+Module.load
+node:internal/modules/cjs/loader (1288:32)
+Module._load
+node:internal/modules/cjs/loader (1104:12)
+Module.require
+node:internal/modules/cjs/loader (1311:19)
+mod.require
+file:///home/runner/workspace/node_modules/next/dist/server/require-hook.js (64:28)
+require
+node:internal/modules/helpers (179:18)
+requirePage
+file:///home/runner/workspace/node_modules/next/dist/server/require.js (109:84)
+<unknown>
+file:///home/runner/workspace/node_modules/next/dist/server/load-components.js (59:84)
+async loadComponentsImpl
+file:///home/runner/workspace/node_modules/next/dist/server/load-components.js (59:26)
+async DevServer.findPageComponentsImpl
+file:///home/runner/workspace/node_modules/next/dist/server/next-server.js (439:36)
