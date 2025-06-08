@@ -89,36 +89,27 @@ export const authOptions: NextAuthOptions = {
         
         // Check if this is for a new user or existing user
         const isNewUser = url.includes('/register');
-        
+
+        const devMode = process.env.NODE_ENV !== 'production' || process.env.EMAIL_DEV_MODE === 'true'
+
         try {
-          // Create transport with optional debug logging in non-production
-          const transport = nodemailer.createTransport({
-            ...provider.server,
-            ...(process.env.NODE_ENV !== 'production'
-              ? { debug: true, logger: true }
-              : {})
-          });
-          
-          console.log('Testing SMTP connection...');
-          const verifyResult = await transport.verify();
-          console.log('SMTP connection verified:', verifyResult);
-          
+
           // Customize email subject and content based on user type
-          const subject = isNewUser 
-            ? `Create your VetCEE Portal account` 
+          const subject = isNewUser
+            ? `Create your VetCEE Portal account`
             : `Sign in to VetCEE Portal`;
-            
+
           const text = isNewUser
             ? `Welcome to VetCEE Portal!\n\nClick the link below to create your account (valid for 10 minutes):\n\n${url}\n\n`
             : `Sign in to VetCEE Portal\n\n${url}\n\n`;
-            
+
           const html = isNewUser
             ? `
               <div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
                 <h2 style="color: #2563eb; margin-bottom: 20px;">Welcome to VetCEE Portal</h2>
                 <p>Click the button below to create your account. This link is valid for 10 minutes.</p>
                 <div style="margin: 30px 0;">
-                  <a href="${url}" 
+                  <a href="${url}"
                      style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
                      Create Account
                   </a>
@@ -136,7 +127,7 @@ export const authOptions: NextAuthOptions = {
                 <h2 style="color: #2563eb; margin-bottom: 20px;">VetCEE Portal</h2>
                 <p>Click the button below to sign in to your account.</p>
                 <div style="margin: 30px 0;">
-                  <a href="${url}" 
+                  <a href="${url}"
                      style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
                      Sign in
                   </a>
@@ -149,18 +140,35 @@ export const authOptions: NextAuthOptions = {
                 </p>
               </div>
             `;
-          
-          console.log('Sending email...');
-          const result = await transport.sendMail({
-            to: identifier,
-            from: provider.from,
-            subject,
-            text,
-            html
-          });
-          
-          console.log('Email sent successfully:', result);
-          console.log('==========================================');
+
+          if (devMode) {
+            console.log('Dev email mode - verification URL:', url)
+          } else {
+            // Create transport with optional debug logging in non-production
+            const transport = nodemailer.createTransport({
+              ...provider.server,
+              ...(process.env.NODE_ENV !== 'production'
+                ? { debug: true, logger: true }
+                : {})
+            })
+
+            console.log('Testing SMTP connection...')
+            const verifyResult = await transport.verify()
+            console.log('SMTP connection verified:', verifyResult)
+
+            console.log('Sending email...')
+            const result = await transport.sendMail({
+              to: identifier,
+              from: provider.from,
+              subject,
+              text,
+              html
+            })
+
+            console.log('Email sent successfully:', result)
+          }
+
+          console.log('==========================================')
         } catch (error) {
           console.error('==========================================');
           console.error('EMAIL SENDING ERROR - DETAILED LOGS');
@@ -173,7 +181,9 @@ export const authOptions: NextAuthOptions = {
           console.error('Error response:', error.response);
           console.error('Error responseCode:', error.responseCode);
           console.error('==========================================');
-          throw new Error(`Failed to send verification email: ${error.message}`);
+          if (!devMode) {
+            throw new Error(`Failed to send verification email: ${error.message}`);
+          }
         }
       }
     }),

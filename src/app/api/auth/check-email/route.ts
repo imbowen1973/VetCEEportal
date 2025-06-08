@@ -70,8 +70,11 @@ export async function POST(request: NextRequest) {
       remaining: Math.max(0, 3 - rateLimitStore[email].attempts)
     });
     
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error checking email:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    const message = error.code === 'P1001'
+      ? 'Database connection error'
+      : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
