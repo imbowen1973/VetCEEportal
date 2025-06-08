@@ -6,7 +6,20 @@ import BiCard from '@/components/dashboard/BiCard';
 import ChartCard from '@/components/dashboard/ChartCard';
 import CMSIntegration from '@/components/dashboard/CMSIntegration';
 import ClearTokensButton from '@/components/dashboard/ClearTokensButton';
-import { FiUsers, FiFileText, FiDollarSign, FiCheckSquare, FiBook } from 'react-icons/fi';
+import {
+  FiUsers,
+  FiFileText,
+  FiDollarSign,
+  FiCheckSquare,
+  FiBook,
+  FiEdit3,
+  FiSend,
+  FiCreditCard,
+  FiMessageCircle,
+  FiCheckCircle,
+  FiCalendar,
+  FiBookOpen
+} from 'react-icons/fi';
 
 // Error boundary component
 class DashboardErrorBoundary extends React.Component {
@@ -46,6 +59,79 @@ class DashboardErrorBoundary extends React.Component {
 
     return this.props.children;
   }
+}
+
+function ProviderDashboard() {
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const res = await fetch('/api/courses/status');
+        if (res.ok) {
+          const data = await res.json();
+          setCounts(data.counts || {});
+        }
+      } catch (err) {
+        console.error('Error loading status counts', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCounts();
+  }, []);
+
+  const statusCards = [
+    { key: 'draft', label: 'Draft', icon: <FiEdit3 className="w-6 h-6" />, color: 'yellow' },
+    { key: 'submitted', label: 'Submitted', icon: <FiSend className="w-6 h-6" />, color: 'blue' },
+    { key: 'awaiting_payment', label: 'Awaiting Payment', icon: <FiCreditCard className="w-6 h-6" />, color: 'purple' },
+    { key: 'in_peer_review', label: 'In Peer Review', icon: <FiUsers className="w-6 h-6" />, color: 'green' },
+    { key: 'awaiting_feedback', label: 'Awaiting Feedback', icon: <FiMessageCircle className="w-6 h-6" />, color: 'yellow' },
+    { key: 'approved', label: 'Approved', icon: <FiCheckCircle className="w-6 h-6" />, color: 'green' },
+    { key: 'scheduling', label: 'Scheduling', icon: <FiCalendar className="w-6 h-6" />, color: 'blue' },
+    { key: 'delivered', label: 'Delivered', icon: <FiBookOpen className="w-6 h-6" />, color: 'purple' },
+  ];
+
+  return (
+    <div className="mb-8">
+      <h2 className="text-xl font-semibold mb-4">Application Status</h2>
+      {loading ? (
+        <div className="text-center py-10">Loading...</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {statusCards.map(card => (
+            <BiCard
+              key={card.key}
+              title={card.label}
+              value={counts[card.key] || 0}
+              icon={card.icon}
+              color={card.color as any}
+              isClickable={false}
+            />
+          ))}
+        </div>
+      )}
+
+      <div className="mt-10 space-y-4">
+        <h2 className="text-xl font-semibold">Reusable Modules</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {['Quality Assurance','E-Learning','Distance Learning','Directed Learning','Assessment','Ethics'].map(name => (
+            <div key={name} className="border rounded-lg p-4 bg-white shadow-sm">
+              <h3 className="font-medium">{name}</h3>
+              <p className="text-sm text-gray-500">Manage {name} frameworks</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6">
+          <h3 className="text-lg font-medium mb-2">Speakers</h3>
+          <p className="text-sm text-gray-600">Define commonly used speakers for quick selection when creating applications.</p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function Dashboard() {
@@ -194,18 +280,10 @@ export default function Dashboard() {
         </DashboardErrorBoundary>
       )}
       
-      {/* User Dashboard */}
+      {/* Provider Dashboard */}
       {!isAdmin && (
         <DashboardErrorBoundary>
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Your Applications</h2>
-            <div className="bg-white shadow rounded-lg p-6">
-              <p className="text-gray-600">You have no active applications.</p>
-              <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                Start New Application
-              </button>
-            </div>
-          </div>
+          <ProviderDashboard />
         </DashboardErrorBoundary>
       )}
       
