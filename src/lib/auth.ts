@@ -95,11 +95,12 @@ export const authOptions: NextAuthOptions = {
         const isNewUser = url.includes('/register');
         
         try {
-          // Create transport with detailed logging
+          // Create transport with optional debug logging in non-production
           const transport = nodemailer.createTransport({
             ...provider.server,
-            debug: true, // Enable debug output
-            logger: true // Log information about the transport
+            ...(process.env.NODE_ENV !== 'production'
+              ? { debug: true, logger: true }
+              : {})
           });
           
           console.log('Testing SMTP connection...');
