@@ -176,11 +176,22 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       if (exists) {
         // Existing user flow - send OTP directly
         console.log('Existing user, sending OTP to:', email)
-        const result = await signIn('email', {
-          email,
-          redirect: false,
-          callbackUrl: window.location.pathname
-        })
+        try {
+          const result = await signIn('email', {
+            email,
+            redirect: false,
+            callbackUrl: window.location.pathname
+          })
+          
+          if (result?.error) {
+            throw new Error(result.error)
+          }
+        } catch (signInError) {
+          console.error('Error during signIn:', signInError)
+          setError('Failed to send verification email. Please try again.')
+          setIsLoading(false)
+          return
+        }
 
 
         await fetchMagicLink(email)
@@ -236,6 +247,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           redirect: false, // Important: prevent automatic redirect
           callbackUrl: window.location.pathname // Stay on current page
         })
+        
+        if (result?.error) {
+          throw new Error(result.error)
+        }
 
 
         await fetchMagicLink(email)
