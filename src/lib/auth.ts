@@ -5,6 +5,7 @@ import { prisma } from "./prisma";
 import nodemailer from 'nodemailer';
 import { JWT } from "next-auth/jwt";
 import { CustomPrismaAdapter } from "./custom-prisma-adapter";
+import { setMagicLink } from "./dev-magic-links";
 
 // Set runtime to nodejs to avoid Edge Runtime issues
 export const runtime = "nodejs";
@@ -85,6 +86,10 @@ export const authOptions: NextAuthOptions = {
           },
           from: provider.from
         });
+
+        if (process.env.NODE_ENV !== 'production') {
+          setMagicLink(identifier, url);
+        }
         
         // Check if this is for a new user or existing user
         const isNewUser = url.includes('/register');

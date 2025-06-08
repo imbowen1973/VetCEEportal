@@ -69,7 +69,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   const [userExists, setUserExists] = useState<boolean | null>(null)
   const [remainingAttempts, setRemainingAttempts] = useState(3)
   const [timeUntilReset, setTimeUntilReset] = useState(0)
-  const [jwtToken, setJwtToken] = useState<string | null>(null)
+  const [magicLink, setMagicLink] = useState<string | null>(null)
+
 
   // Reset states when modal opens/closes
   useEffect(() => {
@@ -82,7 +83,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       setEmail('')
       setConfirmEmail('')
       setUserExists(null)
-      setJwtToken(null)
+      setMagicLink(null)
+
     }
   }, [isOpen])
 
@@ -128,19 +130,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
     }
   }
 
-  const requestDevToken = async (email: string) => {
+
+  const fetchMagicLink = async (email: string) => {
     try {
-      const res = await fetch('/api/auth/dev-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      })
+      const res = await fetch(`/api/auth/dev-magic-link?email=${encodeURIComponent(email)}`)
       const data = await res.json()
-      if (data.token) {
-        setJwtToken(data.token)
+      if (data.url) {
+        const localUrl = data.url.replace(/^https?:\/\/[^/]+/, 'http://localhost:3000')
+        setMagicLink(localUrl)
       }
     } catch (err) {
-      console.error('Error requesting dev token:', err)
+      console.error('Error fetching magic link:', err)
+
     }
   }
 
@@ -181,7 +182,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           callbackUrl: window.location.pathname
         })
 
-        await requestDevToken(email)
+
+        await fetchMagicLink(email)
+
         
         console.log('SignIn result:', result)
         
@@ -234,7 +237,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           callbackUrl: window.location.pathname // Stay on current page
         })
 
-        await requestDevToken(email)
+
+        await fetchMagicLink(email)
+
         
         console.log('SignIn result for new user:', result)
         
@@ -315,10 +320,15 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           <div>
             <p className="font-medium">Email sent - check your email</p>
             <p className="text-sm">
-              {userExists 
-                ? "Sign in link sent to your email" 
+              {userExists
+                ? "Sign in link sent to your email"
                 : "Account creation link sent to your email"}
             </p>
+            {magicLink && (
+              <p className="text-sm break-all">
+                <a className="underline" href={magicLink} target="_blank" rel="noopener noreferrer">Magic link</a>
+              </p>
+            )}
             <p className="text-sm">Closing in {countdown} seconds...</p>
           </div>
         </div>
