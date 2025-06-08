@@ -1,0 +1,785 @@
+[2025-05-25T13:10:36.074Z] Server monitor starting...
+[2025-05-25T13:10:36.079Z] Starting server...
+[2025-05-25T13:10:36.100Z] Killed existing processes with exit code: 1
+[2025-05-25T13:10:37.084Z] Server started with PID: 453952
+[2025-05-25T13:10:39.440Z] Server is ready and running
+[2025-05-25T13:42:01.917Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T13:42:08.372Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T13:42:08.709Z] Server error: [next-auth][error][adapter_error_createVerificationToken] 
+https://next-auth.js.org/errors#adapter_error_createverificationtoken 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "be596dc5dcfaf9d2f167ae65b3b1b63780c97252c83ebcda7ddcd69365bc8fc0",
+    expires: new Date("2025-05-25T13:52:08.698Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "be596dc5dcfaf9d2f167ae65b3b1b63780c97252c83ebcda7ddcd69365bc8fc0",\n' +
+    '    expires: new Date("2025-05-25T13:52:08.698Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.',
+  stack: 'PrismaClientValidationError: \n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "be596dc5dcfaf9d2f167ae65b3b1b63780c97252c83ebcda7ddcd69365bc8fc0",\n' +
+    '    expires: new Date("2025-05-25T13:52:08.698Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.\n' +
+    '    at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)\n' +
+    '    at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)\n' +
+    '    at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)\n' +
+    '    at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)\n' +
+    '    at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)\n' +
+    '    at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39)',
+  name: 'PrismaClientValidationError'
+}
+[2025-05-25T13:42:08.710Z] Server error: [next-auth][error][SIGNIN_EMAIL_ERROR] 
+https://next-auth.js.org/errors#signin_email_error 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "be596dc5dcfaf9d2f167ae65b3b1b63780c97252c83ebcda7ddcd69365bc8fc0",
+    expires: new Date("2025-05-25T13:52:08.698Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  error: PrismaClientValidationError: 
+  Invalid `prisma.verificationToken.create()` invocation:
+  
+  {
+    data: {
+      identifier: "mark.bowen@medicine.vet",
+      token: "be596dc5dcfaf9d2f167ae65b3b1b63780c97252c83ebcda7ddcd69365bc8fc0",
+      expires: new Date("2025-05-25T13:52:08.698Z"),
+  +   email: String
+    }
+  }
+  
+  Argument `email` is missing.
+      at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)
+      at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)
+      at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)
+      at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)
+      at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)
+      at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39) {
+    name: 'CreateVerificationTokenError',
+    code: undefined
+  },
+  providerId: 'email',
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "be596dc5dcfaf9d2f167ae65b3b1b63780c97252c83ebcda7ddcd69365bc8fc0",\n' +
+    '    expires: new Date("2025-05-25T13:52:08.698Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.'
+}
+[2025-05-25T13:42:08.752Z] Server is ready and running
+[2025-05-25T13:42:08.791Z] Server is ready and running
+[2025-05-25T13:42:08.998Z] Server is ready and running
+[2025-05-25T13:42:09.037Z] Server is ready and running
+[2025-05-25T13:44:07.292Z] Server error: [next-auth][error][adapter_error_createVerificationToken] 
+https://next-auth.js.org/errors#adapter_error_createverificationtoken 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowenvet@gmail.com",
+    token: "db93ad7cdfd6eb1b808bd186d70e3d3f5d6fed44a194834199be185a30296f74",
+    expires: new Date("2025-05-25T13:54:07.288Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowenvet@gmail.com",\n' +
+    '    token: "db93ad7cdfd6eb1b808bd186d70e3d3f5d6fed44a194834199be185a30296f74",\n' +
+    '    expires: new Date("2025-05-25T13:54:07.288Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.',
+  stack: 'PrismaClientValidationError: \n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowenvet@gmail.com",\n' +
+    '    token: "db93ad7cdfd6eb1b808bd186d70e3d3f5d6fed44a194834199be185a30296f74",\n' +
+    '    expires: new Date("2025-05-25T13:54:07.288Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.\n' +
+    '    at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)\n' +
+    '    at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)\n' +
+    '    at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)\n' +
+    '    at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)\n' +
+    '    at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)\n' +
+    '    at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39)',
+  name: 'PrismaClientValidationError'
+}
+[2025-05-25T13:44:07.292Z] Server error: [next-auth][error][SIGNIN_EMAIL_ERROR] 
+https://next-auth.js.org/errors#signin_email_error 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowenvet@gmail.com",
+    token: "db93ad7cdfd6eb1b808bd186d70e3d3f5d6fed44a194834199be185a30296f74",
+    expires: new Date("2025-05-25T13:54:07.288Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  error: PrismaClientValidationError: 
+  Invalid `prisma.verificationToken.create()` invocation:
+  
+  {
+    data: {
+      identifier: "mark.bowenvet@gmail.com",
+      token: "db93ad7cdfd6eb1b808bd186d70e3d3f5d6fed44a194834199be185a30296f74",
+      expires: new Date("2025-05-25T13:54:07.288Z"),
+  +   email: String
+    }
+  }
+  
+  Argument `email` is missing.
+      at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)
+      at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)
+      at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)
+      at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)
+      at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)
+      at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39) {
+    name: 'CreateVerificationTokenError',
+    code: undefined
+  },
+  providerId: 'email',
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowenvet@gmail.com",\n' +
+    '    token: "db93ad7cdfd6eb1b808bd186d70e3d3f5d6fed44a194834199be185a30296f74",\n' +
+    '    expires: new Date("2025-05-25T13:54:07.288Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.'
+}
+[2025-05-25T13:44:07.329Z] Server is ready and running
+[2025-05-25T13:44:07.369Z] Server is ready and running
+[2025-05-25T13:44:07.568Z] Server is ready and running
+[2025-05-25T13:44:07.606Z] Server is ready and running
+[2025-05-25T13:47:47.259Z] Server error: [next-auth][error][adapter_error_createVerificationToken] 
+https://next-auth.js.org/errors#adapter_error_createverificationtoken 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "ed7dd85cbfd4374fee2b5caf31625948afadf68805f2b5815f0dc243904a5ff3",
+    expires: new Date("2025-05-25T13:57:47.256Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "ed7dd85cbfd4374fee2b5caf31625948afadf68805f2b5815f0dc243904a5ff3",\n' +
+    '    expires: new Date("2025-05-25T13:57:47.256Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.',
+  stack: 'PrismaClientValidationError: \n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "ed7dd85cbfd4374fee2b5caf31625948afadf68805f2b5815f0dc243904a5ff3",\n' +
+    '    expires: new Date("2025-05-25T13:57:47.256Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.\n' +
+    '    at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)\n' +
+    '    at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)\n' +
+    '    at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)\n' +
+    '    at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)\n' +
+    '    at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)\n' +
+    '    at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39)',
+  name: 'PrismaClientValidationError'
+}
+[2025-05-25T13:47:47.260Z] Server error: [next-auth][error][SIGNIN_EMAIL_ERROR] 
+https://next-auth.js.org/errors#signin_email_error 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "ed7dd85cbfd4374fee2b5caf31625948afadf68805f2b5815f0dc243904a5ff3",
+    expires: new Date("2025-05-25T13:57:47.256Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  error: PrismaClientValidationError: 
+  Invalid `prisma.verificationToken.create()` invocation:
+  
+  {
+    data: {
+      identifier: "mark.bowen@medicine.vet",
+      token: "ed7dd85cbfd4374fee2b5caf31625948afadf68805f2b5815f0dc243904a5ff3",
+      expires: new Date("2025-05-25T13:57:47.256Z"),
+  +   email: String
+    }
+  }
+  
+  Argument `email` is missing.
+      at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)
+      at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)
+      at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)
+      at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)
+      at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)
+      at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39) {
+    name: 'CreateVerificationTokenError',
+    code: undefined
+  },
+  providerId: 'email',
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "ed7dd85cbfd4374fee2b5caf31625948afadf68805f2b5815f0dc243904a5ff3",\n' +
+    '    expires: new Date("2025-05-25T13:57:47.256Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.'
+}
+[2025-05-25T13:47:47.304Z] Server is ready and running
+[2025-05-25T13:47:47.343Z] Server is ready and running
+[2025-05-25T13:47:47.552Z] Server is ready and running
+[2025-05-25T13:47:47.591Z] Server is ready and running
+[2025-05-25T13:48:08.178Z] Server error: Token not found in database
+[2025-05-25T13:48:35.257Z] Server error: Token not found in database
+[2025-05-25T13:48:50.846Z] Server error: Token not found in database
+[2025-05-25T13:49:09.395Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T13:49:15.659Z] Server error: [next-auth][error][adapter_error_createVerificationToken] 
+https://next-auth.js.org/errors#adapter_error_createverificationtoken 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "4dbe2b6dacb3cb0911657339b85072dd4ddfe09c341ebf738d11c648402808ae",
+    expires: new Date("2025-05-25T13:59:15.653Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "4dbe2b6dacb3cb0911657339b85072dd4ddfe09c341ebf738d11c648402808ae",\n' +
+    '    expires: new Date("2025-05-25T13:59:15.653Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.',
+  stack: 'PrismaClientValidationError: \n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "4dbe2b6dacb3cb0911657339b85072dd4ddfe09c341ebf738d11c648402808ae",\n' +
+    '    expires: new Date("2025-05-25T13:59:15.653Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.\n' +
+    '    at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)\n' +
+    '    at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)\n' +
+    '    at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)\n' +
+    '    at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)\n' +
+    '    at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)\n' +
+    '    at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39)',
+  name: 'PrismaClientValidationError'
+}
+[2025-05-25T13:49:15.660Z] Server error: [next-auth][error][SIGNIN_EMAIL_ERROR] 
+https://next-auth.js.org/errors#signin_email_error 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "4dbe2b6dacb3cb0911657339b85072dd4ddfe09c341ebf738d11c648402808ae",
+    expires: new Date("2025-05-25T13:59:15.653Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  error: PrismaClientValidationError: 
+  Invalid `prisma.verificationToken.create()` invocation:
+  
+  {
+    data: {
+      identifier: "mark.bowen@medicine.vet",
+      token: "4dbe2b6dacb3cb0911657339b85072dd4ddfe09c341ebf738d11c648402808ae",
+      expires: new Date("2025-05-25T13:59:15.653Z"),
+  +   email: String
+    }
+  }
+  
+  Argument `email` is missing.
+      at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)
+      at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)
+      at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)
+      at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)
+      at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)
+      at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39) {
+    name: 'CreateVerificationTokenError',
+    code: undefined
+  },
+  providerId: 'email',
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "4dbe2b6dacb3cb0911657339b85072dd4ddfe09c341ebf738d11c648402808ae",\n' +
+    '    expires: new Date("2025-05-25T13:59:15.653Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.'
+}
+[2025-05-25T13:49:15.704Z] Server is ready and running
+[2025-05-25T13:49:15.743Z] Server is ready and running
+[2025-05-25T13:49:15.957Z] Server is ready and running
+[2025-05-25T13:49:15.994Z] Server is ready and running
+[2025-05-25T13:59:58.996Z] Received SIGTERM signal, shutting down...
+[2025-05-25T14:00:14.076Z] Server monitor starting...
+[2025-05-25T14:00:14.079Z] Starting server...
+[2025-05-25T14:00:14.103Z] Killed existing processes with exit code: 1
+[2025-05-25T14:00:15.086Z] Server started with PID: 523515
+[2025-05-25T14:00:17.523Z] Server is ready and running
+[2025-05-25T14:10:22.727Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:10:35.724Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:10:36.046Z] Server error: [next-auth][error][adapter_error_createVerificationToken] 
+https://next-auth.js.org/errors#adapter_error_createverificationtoken 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "0c736fa4254c3d35549834ec6c03740b1f42a971e47a4aaf6a7488bfdfbbb8e4",
+    expires: new Date("2025-05-25T14:20:36.033Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "0c736fa4254c3d35549834ec6c03740b1f42a971e47a4aaf6a7488bfdfbbb8e4",\n' +
+    '    expires: new Date("2025-05-25T14:20:36.033Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.',
+  stack: 'PrismaClientValidationError: \n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "0c736fa4254c3d35549834ec6c03740b1f42a971e47a4aaf6a7488bfdfbbb8e4",\n' +
+    '    expires: new Date("2025-05-25T14:20:36.033Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.\n' +
+    '    at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)\n' +
+    '    at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)\n' +
+    '    at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)\n' +
+    '    at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)\n' +
+    '    at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)\n' +
+    '    at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39)',
+  name: 'PrismaClientValidationError'
+}
+[2025-05-25T14:10:36.047Z] Server error: [next-auth][error][SIGNIN_EMAIL_ERROR] 
+https://next-auth.js.org/errors#signin_email_error 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "0c736fa4254c3d35549834ec6c03740b1f42a971e47a4aaf6a7488bfdfbbb8e4",
+    expires: new Date("2025-05-25T14:20:36.033Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  error: PrismaClientValidationError: 
+  Invalid `prisma.verificationToken.create()` invocation:
+  
+  {
+    data: {
+      identifier: "mark.bowen@medicine.vet",
+      token: "0c736fa4254c3d35549834ec6c03740b1f42a971e47a4aaf6a7488bfdfbbb8e4",
+      expires: new Date("2025-05-25T14:20:36.033Z"),
+  +   email: String
+    }
+  }
+  
+  Argument `email` is missing.
+      at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)
+      at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)
+      at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)
+      at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)
+      at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)
+      at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39) {
+    name: 'CreateVerificationTokenError',
+    code: undefined
+  },
+  providerId: 'email',
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "0c736fa4254c3d35549834ec6c03740b1f42a971e47a4aaf6a7488bfdfbbb8e4",\n' +
+    '    expires: new Date("2025-05-25T14:20:36.033Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.'
+}
+[2025-05-25T14:11:04.318Z] Server error: Token not found in database
+[2025-05-25T14:11:42.934Z] Server error: Token not found in database
+[2025-05-25T14:12:10.725Z] Server error: Token not found in database
+[2025-05-25T14:13:18.748Z] Server error: Token not found in database
+[2025-05-25T14:14:42.249Z] Received SIGTERM signal, shutting down...
+[2025-05-25T14:14:49.850Z] Server monitor starting...
+[2025-05-25T14:14:49.852Z] Starting server...
+[2025-05-25T14:14:49.876Z] Killed existing processes with exit code: 1
+[2025-05-25T14:14:50.859Z] Server started with PID: 552104
+[2025-05-25T14:14:53.380Z] Server is ready and running
+[2025-05-25T14:17:58.895Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:18:03.000Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:18:03.361Z] Server error: [next-auth][error][adapter_error_createVerificationToken] 
+https://next-auth.js.org/errors#adapter_error_createverificationtoken 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "7930520c463a9362d29a99649e4969ee878885b1369b41a80de4737c5b954a4c",
+    expires: new Date("2025-05-25T14:28:03.351Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "7930520c463a9362d29a99649e4969ee878885b1369b41a80de4737c5b954a4c",\n' +
+    '    expires: new Date("2025-05-25T14:28:03.351Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.',
+  stack: 'PrismaClientValidationError: \n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "7930520c463a9362d29a99649e4969ee878885b1369b41a80de4737c5b954a4c",\n' +
+    '    expires: new Date("2025-05-25T14:28:03.351Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.\n' +
+    '    at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)\n' +
+    '    at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)\n' +
+    '    at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)\n' +
+    '    at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)\n' +
+    '    at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)\n' +
+    '    at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39)',
+  name: 'PrismaClientValidationError'
+}
+[2025-05-25T14:18:03.363Z] Server error: [next-auth][error][SIGNIN_EMAIL_ERROR] 
+https://next-auth.js.org/errors#signin_email_error 
+Invalid `prisma.verificationToken.create()` invocation:
+
+{
+  data: {
+    identifier: "mark.bowen@medicine.vet",
+    token: "7930520c463a9362d29a99649e4969ee878885b1369b41a80de4737c5b954a4c",
+    expires: new Date("2025-05-25T14:28:03.351Z"),
++   email: String
+  }
+}
+
+Argument `email` is missing. {
+  error: PrismaClientValidationError: 
+  Invalid `prisma.verificationToken.create()` invocation:
+  
+  {
+    data: {
+      identifier: "mark.bowen@medicine.vet",
+      token: "7930520c463a9362d29a99649e4969ee878885b1369b41a80de4737c5b954a4c",
+      expires: new Date("2025-05-25T14:28:03.351Z"),
+  +   email: String
+    }
+  }
+  
+  Argument `email` is missing.
+      at wn (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:29:1363)
+      at $n.handleRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6958)
+      at $n.handleAndLogRequestError (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6623)
+      at $n.request (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:121:6307)
+      at async l (/home/ubuntu/VetCEE/node_modules/@prisma/client/runtime/library.js:130:9633)
+      at async createVerificationToken (webpack-internal:///(rsc)/./node_modules/@auth/prisma-adapter/index.js:296:39) {
+    name: 'CreateVerificationTokenError',
+    code: undefined
+  },
+  providerId: 'email',
+  message: '\n' +
+    'Invalid `prisma.verificationToken.create()` invocation:\n' +
+    '\n' +
+    '{\n' +
+    '  data: {\n' +
+    '    identifier: "mark.bowen@medicine.vet",\n' +
+    '    token: "7930520c463a9362d29a99649e4969ee878885b1369b41a80de4737c5b954a4c",\n' +
+    '    expires: new Date("2025-05-25T14:28:03.351Z"),\n' +
+    '+   email: String\n' +
+    '  }\n' +
+    '}\n' +
+    '\n' +
+    'Argument `email` is missing.'
+}
+[2025-05-25T14:18:31.296Z] Server error: Token not found in database
+[2025-05-25T14:18:33.001Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:20:08.441Z] Received SIGTERM signal, shutting down...
+[2025-05-25T14:21:58.403Z] Server monitor starting...
+[2025-05-25T14:21:58.406Z] Starting server...
+[2025-05-25T14:21:58.430Z] Killed existing processes with exit code: 1
+[2025-05-25T14:21:59.413Z] Server started with PID: 566881
+[2025-05-25T14:22:01.883Z] Server is ready and running
+[2025-05-25T14:23:16.308Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:23:20.217Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:23:43.379Z] Server error: Token not found in database
+[2025-05-25T14:23:44.960Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:24:13.785Z] Server error: TypeError [ERR_INVALID_STATE]: Invalid state: ReadableStream is already closed
+    at ReadableByteStreamController.enqueue (node:internal/webstreams/readablestream:1183:13)
+    at /home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:313065
+    at c (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:313251)
+    at eY (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:329997)
+    at Timeout._onTimeout (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:324985)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7) {
+  code: 'ERR_INVALID_STATE'
+}
+[2025-05-25T14:24:13.788Z] Server error: ⨯ uncaughtException: TypeError [ERR_INVALID_STATE]: Invalid state: ReadableStream is already closed
+    at ReadableByteStreamController.enqueue (node:internal/webstreams/readablestream:1183:13)
+    at /home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:313065
+    at c (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:313251)
+    at eY (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:329997)
+    at Timeout._onTimeout (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:324985)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7) {
+  code: 'ERR_INVALID_STATE'
+}
+[2025-05-25T14:24:13.788Z] Server error: ⨯ uncaughtException: TypeError [ERR_INVALID_STATE]: Invalid state: ReadableStream is already closed
+    at ReadableByteStreamController.enqueue (node:internal/webstreams/readablestream:1183:13)
+    at /home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:313065
+    at c (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:313251)
+    at eY (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:329997)
+    at Timeout._onTimeout (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:324985)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7) {
+  code: 'ERR_INVALID_STATE'
+}
+[2025-05-25T14:24:13.788Z] Server error: ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[2025-05-25T14:24:13.793Z] Server error: ⨯ Internal error: Error: The render was aborted by the server without a reason.
+    at eG (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:330259)
+    at Object.cancel (/home/ubuntu/VetCEE/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:11:343583)
+    at invokePromiseCallback (node:internal/webstreams/util:172:10)
+    at Object.cancelAlgorithm (node:internal/webstreams/util:177:23)
+    at readableByteStreamControllerCancelSteps (node:internal/webstreams/readablestream:3171:37)
+    at [kCancel] (node:internal/webstreams/readablestream:1197:12)
+    at readableStreamCancel (node:internal/webstreams/readablestream:2018:39)
+    at node:internal/webstreams/readablestream:1549:15
+    at complete (node:internal/webstreams/readablestream:1438:9)
+    at shutdownWithAnAction (node:internal/webstreams/readablestream:1434:5)
+    at node:internal/webstreams/readablestream:1548:14
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2025-05-25T14:26:12.001Z] Server error: Token not found in database
+[2025-05-25T14:26:14.422Z] Server error: [next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[2025-05-25T14:26:17.036Z] Server error: ⨯ ./src/app/dashboard/page.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4m/home/ubuntu/VetCEE/src/app/dashboard/page.tsx[0m:37:1]
+ [2m37[0m |   }
+ [2m38[0m | 
+ [2m39[0m |   return (
+ [2m40[0m |     <div className="min-h-screen bg-gray-50">
+    : [31;1m     ^^^[0m
+ [2m41[0m |       <header className="bg-white shadow">
+ [2m42[0m |         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+ [2m43[0m |           <div className="flex justify-between items-center">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/dashboard/page.tsx
+[2025-05-25T14:26:19.060Z] Server error: ⨯ ./src/app/dashboard/page.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4m/home/ubuntu/VetCEE/src/app/dashboard/page.tsx[0m:37:1]
+ [2m37[0m |   }
+ [2m38[0m | 
+ [2m39[0m |   return (
+ [2m40[0m |     <div className="min-h-screen bg-gray-50">
+    : [31;1m     ^^^[0m
+ [2m41[0m |       <header className="bg-white shadow">
+ [2m42[0m |         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+ [2m43[0m |           <div className="flex justify-between items-center">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/dashboard/page.tsx
+[2025-05-25T14:26:19.539Z] Server output: ○ Compiling /_error ...
+[2025-05-25T14:26:19.689Z] Server error: ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[2025-05-25T14:26:33.406Z] Server output: ✓ Compiled /_error in 173ms (781 modules)
+[2025-05-25T14:27:53.462Z] Received SIGTERM signal, shutting down...
+[2025-05-25T14:28:20.214Z] Server monitor starting...
+[2025-05-25T14:28:20.217Z] Starting server...
+[2025-05-25T14:28:20.241Z] Killed existing processes with exit code: 1
+[2025-05-25T14:28:21.225Z] Server started with PID: 579161
+[2025-05-25T14:28:23.724Z] Server is ready and running
+[2025-05-25T14:29:27.167Z] Server error: ⨯ ./src/app/dashboard/page.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4m/home/ubuntu/VetCEE/src/app/dashboard/page.tsx[0m:40:1]
+ [2m40[0m |   }
+ [2m41[0m | 
+ [2m42[0m |   return (
+ [2m43[0m |     <div className="min-h-screen bg-gray-50">
+    : [31;1m     ^^^[0m
+ [2m44[0m |       <Header currentPath="/dashboard" />
+ [2m45[0m |       
+ [2m46[0m |       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/dashboard/page.tsx
+[2025-05-25T14:29:27.680Z] Server error: ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[2025-05-25T14:29:29.385Z] Server output: ○ Compiling /_error ...
+[2025-05-25T14:29:30.281Z] Server error: <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz'
+[2025-05-25T14:29:30.293Z] Server error: <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz'
+[2025-05-25T14:29:30.335Z] Server error: <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz'
+[2025-05-25T14:29:30.450Z] Server error: <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/home/ubuntu/VetCEE/.next/cache/webpack/client-development-fallback/0.pack.gz'
+[2025-05-25T14:44:37.591Z] Server error: Token not found in database
+[2025-05-25T14:47:08.159Z] Received SIGTERM signal, shutting down...
