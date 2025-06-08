@@ -19,7 +19,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     
-    const { title, description, outcomes, qa, pedagogy, policies, teacherBios, sessions } = await req.json();
+  const {
+    title,
+    description,
+    outcomes,
+    qa,
+    pedagogy,
+    policies,
+    teacherBios,
+    courseType,
+    deliveryType,
+    species,
+    subject,
+    frequency,
+    language,
+    summary,
+    audience,
+    locationType,
+    locationDetails,
+    prerequisites,
+    hoursLecture,
+    hoursPractical,
+    hoursOnline,
+    ects,
+    cost,
+    status,
+    sessions
+  } = await req.json();
     
     // Validate required fields
     if (!title || !description || !outcomes) {
@@ -37,28 +63,44 @@ export async function POST(req: NextRequest) {
     }
     
     // Create course
-    const course = await prisma.course.create({
-      data: {
-        title,
-        description,
-        outcomes,
-        qa,
-        pedagogy,
-        policies,
-        teacherBios,
-        status: 'pending',
-        userId: session.user.id,
-        organizationId: user.organizationId,
-        sessions: {
-          create: sessions.map((session: Session) => ({
-            title: session.title,
-            teacher: session.teacher,
-            duration: parseInt(session.duration.toString()),
-            description: session.description,
-          })),
-        },
+  const course = await prisma.course.create({
+    data: {
+      title,
+      description,
+      outcomes,
+      qa,
+      pedagogy,
+      policies,
+      teacherBios,
+      courseType,
+      deliveryType,
+      species,
+      subject,
+      frequency,
+      language,
+      summary,
+      audience,
+      locationType,
+      locationDetails,
+      prerequisites,
+      hoursLecture: hoursLecture ? parseFloat(hoursLecture) : undefined,
+      hoursPractical: hoursPractical ? parseFloat(hoursPractical) : undefined,
+      hoursOnline: hoursOnline ? parseFloat(hoursOnline) : undefined,
+      ects: ects ? parseFloat(ects) : undefined,
+      cost: cost ? parseFloat(cost) : undefined,
+      status: status ?? 'draft',
+      userId: session.user.id,
+      organizationId: user.organizationId,
+      sessions: {
+        create: (sessions || []).map((session: Session) => ({
+          title: session.title,
+          teacher: session.teacher,
+          duration: parseInt(session.duration.toString()),
+          description: session.description,
+        })),
       },
-    });
+    },
+  });
     
     return NextResponse.json({ 
       message: 'Course created successfully',

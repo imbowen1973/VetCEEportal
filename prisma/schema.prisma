@@ -97,6 +97,22 @@ model Course {
   pedagogy    String?
   policies    String?
   teacherBios String?
+  courseType  String?
+  deliveryType String?
+  species     String?
+  subject     String?
+  frequency   String? // single or multiple
+  language    String?
+  summary     String?
+  audience    String?
+  locationType String?
+  locationDetails String?
+  prerequisites String?
+  hoursLecture  Float?
+  hoursPractical Float?
+  hoursOnline   Float?
+  ects          Float?
+  cost          Float?
   status      CourseStatus @default(draft)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
