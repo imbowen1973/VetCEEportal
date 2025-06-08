@@ -71,6 +71,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   const [timeUntilReset, setTimeUntilReset] = useState(0)
   const [magicLink, setMagicLink] = useState<string | null>(null)
 
+
   // Reset states when modal opens/closes
   useEffect(() => {
     if (!isOpen) {
@@ -83,6 +84,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       setConfirmEmail('')
       setUserExists(null)
       setMagicLink(null)
+
     }
   }, [isOpen])
 
@@ -128,6 +130,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
     }
   }
 
+
   const fetchMagicLink = async (email: string) => {
     try {
       const res = await fetch(`/api/auth/dev-magic-link?email=${encodeURIComponent(email)}`)
@@ -138,6 +141,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       }
     } catch (err) {
       console.error('Error fetching magic link:', err)
+
     }
   }
 
@@ -178,7 +182,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           callbackUrl: window.location.pathname
         })
 
+
         await fetchMagicLink(email)
+
         
         console.log('SignIn result:', result)
         
@@ -231,7 +237,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           callbackUrl: window.location.pathname // Stay on current page
         })
 
+
         await fetchMagicLink(email)
+
         
         console.log('SignIn result for new user:', result)
         
@@ -499,6 +507,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
                 ? "Please check your email for a sign-in link."
                 : "Please check your email to create your account."}
             </p>
+            {jwtToken && (
+              <div className="mb-4 p-2 bg-gray-100 rounded break-all text-left">
+                <p className="font-semibold mb-1">Development JWT:</p>
+                <pre className="whitespace-pre-wrap break-all text-xs">{jwtToken}</pre>
+              </div>
+            )}
             <button
               onClick={onClose}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
