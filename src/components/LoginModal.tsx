@@ -224,7 +224,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
           const result = await signIn('email', {
             email,
             redirect: false,
-            callbackUrl: window.location.pathname
+            callbackUrl: '/dashboard'
           })
           
           console.log('📧 [LOGIN MODAL] NextAuth result:', result)
@@ -285,7 +285,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
         const result = await signIn('email', {
           email,
           redirect: false,
-          callbackUrl: window.location.pathname
+          callbackUrl: '/dashboard'
         })
         
         console.log('📧 [LOGIN MODAL] NextAuth result for new user:', result)
