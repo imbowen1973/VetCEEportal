@@ -37,9 +37,10 @@ const ClearTokensButton: React.FC<ClearTokensButtonProps> = ({ className = '' })
       });
     } catch (error) {
       console.error('Error clearing tokens:', error);
+      const err = error as any;
       setResult({
         success: false,
-        error: error.response?.data?.error || 'Failed to clear tokens'
+        error: err.response?.data?.error || 'Failed to clear tokens'
       });
     } finally {
       setIsLoading(false);

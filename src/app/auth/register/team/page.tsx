@@ -101,7 +101,7 @@ export default function RegisterTeam() {
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
             <p className="text-sm text-gray-600">
-              Add team members who will have access to your organization's account. You can invite more team members later.
+              Add team members who will have access to your organization&apos;s account. You can invite more team members later.
             </p>
             
             {formData.teamMembers.map((member, index) => (

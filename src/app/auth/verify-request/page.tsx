@@ -12,7 +12,7 @@ export default function VerifyRequest() {
         <p>Please check your inbox and click the link to continue.</p>
       </div>
       <p className="text-sm text-gray-600">
-        If you don't see the email, check your spam folder. If you still don't see it, try requesting another link.
+        If you don&apos;t see the email, check your spam folder. If you still don&apos;t see it, try requesting another link.
       </p>
     </div>
   );

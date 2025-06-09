@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, confirmEmail, role, adminInitiated, invitedBy, orgId } = await req.json();
+    let { email, confirmEmail, role, adminInitiated, invitedBy, orgId } = await req.json();
     
     // Validate required fields
     if (!email || !confirmEmail) {
