@@ -1,9 +1,11 @@
 import NextAuth from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-// Set runtime to nodejs to avoid Edge Runtime issues
-export const runtime = "nodejs";
+// Add this debug logging
+console.log('🔧 [NEXTAUTH ROUTE] Loading NextAuth API route');
+console.log('🔧 [NEXTAUTH ROUTE] authOptions loaded:', !!authOptions);
+console.log('🔧 [NEXTAUTH ROUTE] Providers count:', authOptions.providers?.length);
+console.log('🔧 [NEXTAUTH ROUTE] Email provider exists:', !!authOptions.providers?.find(p => p.id === 'email'));
 
-// Use the recommended NextAuth pattern
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

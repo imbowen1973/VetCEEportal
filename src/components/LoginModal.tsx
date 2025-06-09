@@ -71,7 +71,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   const [timeUntilReset, setTimeUntilReset] = useState(0)
   const [magicLink, setMagicLink] = useState<string | null>(null)
 
-
   // Reset states when modal opens/closes
   useEffect(() => {
     if (!isOpen) {
@@ -84,7 +83,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       setConfirmEmail('')
       setUserExists(null)
       setMagicLink(null)
-
     }
   }, [isOpen])
 
@@ -122,26 +120,56 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   // Check if email exists in database
   const checkEmailExists = async (email: string): Promise<boolean> => {
     try {
+      console.log('🔍 [LOGIN MODAL] Checking if email exists:', email)
       const response = await axios.post('/api/auth/check-email', { email })
+      console.log('✅ [LOGIN MODAL] Email check response:', response.data)
       return response.data.exists
     } catch (error) {
-      console.error('Error checking email:', error)
+      console.error('❌ [LOGIN MODAL] Error checking email:', error)
       return false
     }
   }
 
-
   const fetchMagicLink = async (email: string) => {
     try {
+      console.log('🔗 [LOGIN MODAL] Fetching magic link for:', email)
       const res = await fetch(`/api/auth/dev-magic-link?email=${encodeURIComponent(email)}`)
       const data = await res.json()
+      console.log('🔗 [LOGIN MODAL] Magic link response:', data)
       if (data.url) {
         const localUrl = data.url.replace(/^https?:\/\/[^/]+/, 'http://localhost:3000')
         setMagicLink(localUrl)
+        console.log('🔗 [LOGIN MODAL] Magic link set:', localUrl)
       }
     } catch (err) {
-      console.error('Error fetching magic link:', err)
+      console.error('❌ [LOGIN MODAL] Error fetching magic link:', err)
+    }
+  }
 
+  // Test direct email sending (bypassing NextAuth)
+  const testDirectEmail = async (email: string) => {
+    try {
+      console.log('🚨 [LOGIN MODAL] Testing direct email send...')
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email })
+      })
+      
+      const result = await response.json()
+      console.log('🚨 [LOGIN MODAL] Direct email result:', result)
+      
+      if (result.success) {
+        setMagicLink(result.magicLink)
+        return true
+      } else {
+        throw new Error(result.error || 'Direct email failed')
+      }
+    } catch (error) {
+      console.error('❌ [LOGIN MODAL] Direct email error:', error)
+      return false
     }
   }
 
@@ -149,13 +177,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   const handleInitialSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    console.log('🚀 [LOGIN MODAL] Starting initial email submission for:', email)
+    console.log('🚀 [LOGIN MODAL] Current timestamp:', new Date().toISOString())
+    
     if (!email || !email.includes('@')) {
+      console.log('❌ [LOGIN MODAL] Invalid email format')
       setError('Please enter a valid email address')
       return
     }
     
     // Check rate limiting
     if (rateLimitStore.isRateLimited(email)) {
+      console.log('⏰ [LOGIN MODAL] Rate limited for email:', email)
       setError(`Too many attempts. Please try again in ${Math.ceil(timeUntilReset / 60)} minutes.`)
       return
     }
@@ -172,42 +205,52 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       // Check if user exists in database
       const exists = await checkEmailExists(email)
       setUserExists(exists)
+      console.log('👤 [LOGIN MODAL] User exists:', exists)
       
       if (exists) {
-        // Existing user flow - send OTP directly
-        console.log('Existing user, sending OTP to:', email)
-        const result = await signIn('email', {
-          email,
-          redirect: false,
-          callbackUrl: window.location.pathname
-        })
-
-
-        await fetchMagicLink(email)
-
+        // Try direct email first (bypassing NextAuth)
+        console.log('📧 [LOGIN MODAL] Trying direct email send...')
+        const directSuccess = await testDirectEmail(email)
         
-        console.log('SignIn result:', result)
-        
-        if (result?.error === "EmailSignin" && result.status === 200 && result.ok === true) {
-          // This is a successful email sending, show toast and start countdown
+        if (directSuccess) {
+          console.log('✅ [LOGIN MODAL] Direct email succeeded!')
           setShowToast(true)
           setStep('success')
           onEmailSent()
-        } else if (result?.error) {
-          handleAuthError(result)
         } else {
-          // Other success cases
-          setShowToast(true)
-          setStep('success')
-          onEmailSent()
+          console.log('❌ [LOGIN MODAL] Direct email failed, trying NextAuth...')
+          
+          // Fallback to NextAuth
+          const result = await signIn('email', {
+            email,
+            redirect: false,
+            callbackUrl: window.location.pathname
+          })
+          
+          console.log('📧 [LOGIN MODAL] NextAuth result:', result)
+          
+          if (result?.ok) {
+            await fetchMagicLink(email)
+            setShowToast(true)
+            setStep('success')
+            onEmailSent()
+          } else {
+            throw new Error(result?.error || 'Both direct email and NextAuth failed')
+          }
         }
       } else {
         // New user flow - show confirmation field
-        console.log('New user, showing confirmation field for:', email)
+        console.log('👤 [LOGIN MODAL] New user, showing confirmation field')
         setStep('confirm')
       }
     } catch (err: any) {
-      handleError(err)
+      console.error('❌ [LOGIN MODAL] Error in handleInitialSubmit:', err)
+      setError(`Error: ${err?.message || 'Unknown error occurred'}. Please try again.`)
+      setDebugInfo({
+        name: err?.name,
+        message: err?.message,
+        stack: err?.stack
+      })
     } finally {
       setIsLoading(false)
     }
@@ -217,7 +260,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   const handleConfirmSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    console.log('🚀 [LOGIN MODAL] Starting confirmation email submission for:', email)
+    
     if (email !== confirmEmail) {
+      console.log('❌ [LOGIN MODAL] Emails do not match')
       setError('Emails do not match. Please check and try again.')
       return
     }
@@ -226,49 +272,41 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
     setError('')
     
     try {
-      console.log('New user confirmed, sending OTP for account creation:', email)
+      // Try direct email first
+      const directSuccess = await testDirectEmail(email)
       
-      // Send OTP for account creation (10 min expiry)
-      // Use try-catch to handle any errors from signIn
-      try {
+      if (directSuccess) {
+        console.log('✅ [LOGIN MODAL] Direct email succeeded for new user!')
+        setShowToast(true)
+        setStep('success')
+        onEmailSent()
+      } else {
+        // Fallback to NextAuth
         const result = await signIn('email', {
           email,
-          redirect: false, // Important: prevent automatic redirect
-          callbackUrl: window.location.pathname // Stay on current page
+          redirect: false,
+          callbackUrl: window.location.pathname
         })
-
-
-        await fetchMagicLink(email)
-
         
-        console.log('SignIn result for new user:', result)
+        console.log('📧 [LOGIN MODAL] NextAuth result for new user:', result)
         
-        // Check for success conditions
-        if (result?.error === "EmailSignin" && result.status === 200 && result.ok === true) {
-          // This is a successful email sending, show toast and start countdown
+        if (result?.ok) {
+          await fetchMagicLink(email)
           setShowToast(true)
           setStep('success')
           onEmailSent()
-        } else if (result?.error) {
-          handleAuthError(result)
         } else {
-          // Other success cases
-          setShowToast(true)
-          setStep('success')
-          onEmailSent()
+          throw new Error(result?.error || 'Email sending failed')
         }
-      } catch (signInError: any) {
-        console.error('Error during signIn:', signInError)
-        setError(`Error sending verification email: ${signInError.message || 'Unknown error'}`)
-        setDebugInfo({
-          name: signInError?.name,
-          message: signInError?.message,
-          stack: signInError?.stack,
-          code: signInError?.code
-        })
       }
     } catch (err: any) {
-      handleError(err)
+      console.error('❌ [LOGIN MODAL] Error in handleConfirmSubmit:', err)
+      setError(`Error: ${err?.message || 'Unknown error occurred'}. Please try again.`)
+      setDebugInfo({
+        name: err?.name,
+        message: err?.message,
+        stack: err?.stack
+      })
     } finally {
       setIsLoading(false)
     }
@@ -276,37 +314,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
 
   // Go back to initial step
   const handleBack = () => {
+    console.log('🔙 [LOGIN MODAL] Going back to initial step')
     setStep('initial')
     setError('')
     setConfirmEmail('')
-  }
-
-  // Handle authentication errors
-  const handleAuthError = (result: any) => {
-    if (result.error === "UserNotFound" || result.error.includes("user") || result.error.includes("email")) {
-      setError(`We couldn't find an account with that email address. Please check your spelling or try another email.`)
-    } else {
-      setError(`Authentication error: ${result.error}`)
-    }
-    
-    setDebugInfo({
-      error: result.error,
-      status: result.status,
-      ok: result.ok,
-      url: result.url
-    })
-  }
-
-  // Handle general errors
-  const handleError = (err: any) => {
-    console.error('Detailed sign-in error:', err)
-    setError(`Error: ${err?.message || 'Unknown error occurred'}. Please try again or use a different email.`)
-    setDebugInfo({
-      name: err?.name,
-      message: err?.message,
-      stack: err?.stack,
-      code: err?.code
-    })
   }
 
   return (
@@ -387,7 +398,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
                   {error}
                   
                   {debugInfo && (
-                    <div className="mt-2 p-2 bg-gray-100 rounded text-xs font-mono overflow-auto">
+                    <div className="mt-2 p-2 bg-gray-100 rounded text-xs font-mono overflow-auto max-h-40">
                       <p className="font-bold">Debug Information:</p>
                       <pre>{JSON.stringify(debugInfo, null, 2)}</pre>
                     </div>
@@ -466,7 +477,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
                   {error}
                   
                   {debugInfo && (
-                    <div className="mt-2 p-2 bg-gray-100 rounded text-xs font-mono overflow-auto">
+                    <div className="mt-2 p-2 bg-gray-100 rounded text-xs font-mono overflow-auto max-h-40">
                       <p className="font-bold">Debug Information:</p>
                       <pre>{JSON.stringify(debugInfo, null, 2)}</pre>
                     </div>
@@ -507,10 +518,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
                 ? "Please check your email for a sign-in link."
                 : "Please check your email to create your account."}
             </p>
-            {jwtToken && (
+            {magicLink && (
               <div className="mb-4 p-2 bg-gray-100 rounded break-all text-left">
-                <p className="font-semibold mb-1">Development JWT:</p>
-                <pre className="whitespace-pre-wrap break-all text-xs">{jwtToken}</pre>
+                <p className="font-semibold mb-1">Development Magic Link:</p>
+                <a href={magicLink} className="text-blue-600 hover:underline text-xs break-all">{magicLink}</a>
               </div>
             )}
             <button

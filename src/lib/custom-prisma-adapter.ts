@@ -6,6 +6,8 @@ import { Adapter } from "next-auth/adapters";
  * between our custom VerificationToken model and NextAuth's expected model
  */
 export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
+  console.log('🚨 [ADAPTER] CustomPrismaAdapter CREATED - THIS SHOULD RUN ONCE');
+  
   return {
     createUser: (data) => {
       return prisma.user.create({
@@ -77,8 +79,13 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
     },
     // Custom implementation for createVerificationToken to handle schema mismatch
     async createVerificationToken(data) {
+      console.log('🚨🚨🚨 [ADAPTER] createVerificationToken CALLED!!! 🚨🚨🚨');
+      console.log('🔧 [ADAPTER] Data received:', data);
+      
       // Map NextAuth's expected fields to our custom schema
       const { identifier, token, expires } = data;
+      
+      console.log('🔧 [ADAPTER] Creating verification token:', { identifier, token, expires });
       
       // Create the verification token with our custom schema
       const verificationToken = await prisma.verificationToken.create({
@@ -91,6 +98,8 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
         },
       });
       
+      console.log('🔧 [ADAPTER] ✅ Created verification token in DB:', verificationToken.id);
+      
       // Return only the fields NextAuth expects
       return {
         identifier: verificationToken.identifier,
@@ -100,6 +109,8 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
     },
     // Custom implementation for useVerificationToken to handle schema mismatch
     async useVerificationToken(params) {
+      console.log('🔧 [ADAPTER] useVerificationToken called with:', params);
+      
       try {
         // Find the token using our custom schema
         const verificationToken = await prisma.verificationToken.findFirst({
@@ -110,7 +121,12 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
           },
         });
         
-        if (!verificationToken) return null;
+        if (!verificationToken) {
+          console.log('🔧 [ADAPTER] ❌ No valid token found');
+          return null;
+        }
+        
+        console.log('🔧 [ADAPTER] ✅ Found token, deleting:', verificationToken.id);
         
         // Delete the token
         await prisma.verificationToken.delete({
@@ -124,7 +140,7 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
           expires: verificationToken.expires,
         };
       } catch (error) {
-        // If token is not found or already used, return null
+        console.error('🔧 [ADAPTER] ❌ useVerificationToken error:', error);
         return null;
       }
     },
