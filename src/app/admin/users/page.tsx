@@ -16,33 +16,12 @@ interface Notification {
   message: string;
 }
 
-export default function AdminUsers() {
+export default function AdminUsers({ users: initialUsers, isAdminFull }: { users: User[]; isAdminFull: boolean }) {
   const router = useRouter();
-  const [users, setUsers] = React.useState<User[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [users, setUsers] = React.useState<User[]>(initialUsers);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [notification, setNotification] = React.useState<Notification | null>(null);
   
-  React.useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('/api/admin/users');
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data.users || []);
-        }
-      } catch (error) {
-        console.error('Error fetching users:', error);
-        setNotification({
-          type: 'error',
-          message: 'Failed to load users. Please try again.'
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    fetchUsers();
-  }, []);
   
   const handleApprove = async (userId: string) => {
     try {
@@ -187,6 +166,7 @@ export default function AdminUsers() {
                         </button>
                       )}
                       
+                      {isAdminFull && (
                       <div className="relative group">
                         <button className="text-sm text-blue-600 hover:text-blue-800">
                           Manage Roles
@@ -268,6 +248,7 @@ export default function AdminUsers() {
                           </div>
                         </div>
                       </div>
+                      )}
                     </div>
                   </td>
                 </tr>

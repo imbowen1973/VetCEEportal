@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
+import crypto from 'crypto';
 
 // Set runtime to nodejs to avoid Edge Runtime issues
 export const runtime = "nodejs";
@@ -32,11 +33,15 @@ export async function POST(req: NextRequest) {
     
     // Create verification token
     const token = crypto.randomUUID();
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(`${token}${process.env.NEXTAUTH_SECRET}`)
+      .digest('hex');
     const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-    
+
     await prisma.verificationToken.create({
       data: {
-        token,
+        token: hashedToken,
         expires,
         email,
         role: 'Provider',

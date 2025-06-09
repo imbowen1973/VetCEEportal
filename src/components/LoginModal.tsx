@@ -132,6 +132,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
 
 
   const fetchMagicLink = async (email: string) => {
+    if (process.env.NODE_ENV !== 'development') return
     try {
       const res = await fetch(`/api/auth/dev-magic-link?email=${encodeURIComponent(email)}`)
       const data = await res.json()
@@ -340,7 +341,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
                 ? "Sign in link sent to your email"
                 : "Account creation link sent to your email"}
             </p>
-            {magicLink && (
+            {process.env.NODE_ENV === 'development' && magicLink && (
               <p className="text-sm break-all">
                 <a className="underline" href={magicLink} target="_blank" rel="noopener noreferrer">Magic link</a>
               </p>

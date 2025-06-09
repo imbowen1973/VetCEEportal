@@ -4,6 +4,9 @@ import { prisma } from '@/lib/prisma';
 export const runtime = 'nodejs';
 
 export async function GET(req: NextRequest) {
+  if (process.env.NODE_ENV !== 'development') {
+    return NextResponse.json({ error: 'Not Found' }, { status: 404 });
+  }
   const { searchParams } = new URL(req.url);
   const email = searchParams.get('email');
   if (!email) {
