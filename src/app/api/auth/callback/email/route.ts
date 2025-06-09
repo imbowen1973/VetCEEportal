@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { decode } from 'next-auth/jwt';
+import crypto from 'crypto';
 
 // Set runtime to nodejs to avoid Edge Runtime issues
 export const runtime = "nodejs";
@@ -36,11 +36,17 @@ export async function GET(request: NextRequest) {
       console.error('Missing token or email in callback URL');
       return NextResponse.redirect(`${fullBaseUrl}/auth/error?error=MissingParameters`);
     }
-    
+
+    // Hash the incoming token the same way NextAuth does
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(`${token}${process.env.NEXTAUTH_SECRET}`)
+      .digest('hex');
+
     // Verify the token exists in the database
     const verificationToken = await prisma.verificationToken.findUnique({
       where: {
-        token,
+        token: hashedToken,
       },
     });
     
@@ -108,7 +114,7 @@ export async function GET(request: NextRequest) {
     // Delete the verification token to prevent reuse
     await prisma.verificationToken.delete({
       where: {
-        token,
+        token: hashedToken,
       },
     });
     
