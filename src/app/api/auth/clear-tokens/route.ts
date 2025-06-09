@@ -1,4 +1,3 @@
-'use server';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
@@ -52,8 +51,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error('Error clearing tokens:', error);
+    const err = error as any;
     return NextResponse.json(
-      { error: 'Failed to clear tokens', details: error.message },
+      { error: 'Failed to clear tokens', details: err.message },
       { status: 500 }
     );
   } finally {

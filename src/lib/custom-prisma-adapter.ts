@@ -40,15 +40,18 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
         where: { id: userId },
       });
     },
-    linkAccount: (data) => {
+    linkAccount: async (data) => {
       return prisma.account.create({
         data,
-      });
+      }) as any;
     },
-    unlinkAccount: (provider_providerAccountId) => {
+    unlinkAccount: async ({ provider, providerAccountId }) => {
       return prisma.account.delete({
-        where: { provider_providerAccountId },
-      });
+        where: { provider_providerAccountId: {
+          provider,
+          providerAccountId,
+        } },
+      }) as any;
     },
     async getSessionAndUser(sessionToken) {
       const userAndSession = await prisma.session.findUnique({
@@ -76,7 +79,7 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
       });
     },
     // Custom implementation for createVerificationToken to handle schema mismatch
-    async createVerificationToken(data) {
+    async createVerificationToken(data): Promise<any> {
       // Map NextAuth's expected fields to our custom schema
       const { identifier, token, expires } = data;
       
@@ -96,10 +99,10 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
         identifier: verificationToken.identifier,
         token: verificationToken.token,
         expires: verificationToken.expires,
-      };
+      } as any;
     },
     // Custom implementation for useVerificationToken to handle schema mismatch
-    async useVerificationToken(params) {
+    async useVerificationToken(params): Promise<any> {
       try {
         // Find the token using our custom schema
         const verificationToken = await prisma.verificationToken.findFirst({
@@ -122,7 +125,7 @@ export function CustomPrismaAdapter(prisma: PrismaClient): Adapter {
           identifier: verificationToken.email,
           token: verificationToken.token,
           expires: verificationToken.expires,
-        };
+        } as any;
       } catch (error) {
         // If token is not found or already used, return null
         return null;

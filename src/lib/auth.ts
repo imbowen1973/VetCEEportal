@@ -72,16 +72,17 @@ export const authOptions: NextAuthOptions = {
         console.log('Email recipient:', identifier);
         console.log('Verification URL:', url);
         console.log('Token:', token);
+        const server = provider.server as any;
         console.log('Email provider config:', {
           server: {
-            host: provider.server.host,
-            port: provider.server.port,
+            host: server.host,
+            port: server.port,
             auth: {
-              user: provider.server.auth.user,
+              user: server.auth?.user,
               // Password redacted for security
             },
-            secure: provider.server.secure,
-            tls: provider.server.tls
+            secure: server.secure,
+            tls: server.tls
           },
           from: provider.from
         });
@@ -92,12 +93,16 @@ export const authOptions: NextAuthOptions = {
         
         try {
           // Create transport with optional debug logging in non-production
-          const transport = nodemailer.createTransport({
-            ...provider.server,
-            ...(process.env.NODE_ENV !== 'production'
-              ? { debug: true, logger: true }
-              : {})
-          });
+          const transport = nodemailer.createTransport(
+            typeof provider.server === 'string'
+              ? provider.server
+              : {
+                  ...provider.server,
+                  ...(process.env.NODE_ENV !== 'production'
+                    ? { debug: true, logger: true }
+                    : {}),
+                }
+          );
           
           console.log('Testing SMTP connection...');
           const verifyResult = await transport.verify();
@@ -165,15 +170,16 @@ export const authOptions: NextAuthOptions = {
           console.error('==========================================');
           console.error('EMAIL SENDING ERROR - DETAILED LOGS');
           console.error('==========================================');
-          console.error('Error type:', error.name);
-          console.error('Error message:', error.message);
-          console.error('Error stack:', error.stack);
-          console.error('Error code:', error.code);
-          console.error('Error command:', error.command);
-          console.error('Error response:', error.response);
-          console.error('Error responseCode:', error.responseCode);
+          const err = error as any;
+          console.error('Error type:', err.name);
+          console.error('Error message:', err.message);
+          console.error('Error stack:', err.stack);
+          console.error('Error code:', err.code);
+          console.error('Error command:', err.command);
+          console.error('Error response:', err.response);
+          console.error('Error responseCode:', err.responseCode);
           console.error('==========================================');
-          throw new Error(`Failed to send verification email: ${error.message}`);
+          throw new Error(`Failed to send verification email: ${err.message}`);
         }
       }
     }),
@@ -190,7 +196,7 @@ export const authOptions: NextAuthOptions = {
         const { SignJWT } = await import('jose');
         
         // Convert secret to Uint8Array for jose
-        const secretBytes = new TextEncoder().encode(secret);
+        const secretBytes = new TextEncoder().encode(String(secret));
         
         // Create and sign the JWT with proper algorithm
         return await new SignJWT(token as Record<string, any>)
@@ -215,7 +221,7 @@ export const authOptions: NextAuthOptions = {
         const { jwtVerify } = await import('jose');
         
         // Convert secret to Uint8Array for jose
-        const secretBytes = new TextEncoder().encode(secret);
+        const secretBytes = new TextEncoder().encode(String(secret));
         
         // Verify and decode the JWT
         const { payload } = await jwtVerify(token, secretBytes, {

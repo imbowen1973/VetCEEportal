@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
   let redirectUrl = searchParams.get('callbackUrl') || '/dashboard';
   
   // Get the base URL from environment variable or request
-  const baseUrl = process.env.NEXTAUTH_URL || request.headers.get('x-forwarded-host') || request.headers.get('host');
+  const baseUrl = process.env.NEXTAUTH_URL || request.headers.get('x-forwarded-host') || request.headers.get('host') || '';
   const protocol = baseUrl.startsWith('https') ? 'https' : 'http';
   const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `${protocol}://${baseUrl}`;
   
@@ -145,14 +145,15 @@ export async function GET(request: NextRequest) {
     console.error('==========================================');
     console.error('EMAIL CALLBACK ERROR - DETAILED LOGS');
     console.error('==========================================');
-    console.error('Error type:', error.name);
-    console.error('Error message:', error.message);
-    console.error('Error stack:', error.stack);
+    const err = error as any;
+    console.error('Error type:', err.name);
+    console.error('Error message:', err.message);
+    console.error('Error stack:', err.stack);
     console.error('==========================================');
     
     // Redirect to error page with details
     return NextResponse.redirect(
-      `${fullBaseUrl}/auth/error?error=CallbackError&message=${encodeURIComponent(error.message)}`
+      `${fullBaseUrl}/auth/error?error=CallbackError&message=${encodeURIComponent(err.message)}`
     );
   }
 }

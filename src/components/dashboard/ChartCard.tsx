@@ -7,7 +7,7 @@ interface ChartCardProps {
   title: string;
   chartType: 'bar' | 'line' | 'pie' | 'doughnut';
   data: any;
-  color?: string;
+  color?: 'blue' | 'green' | 'yellow' | 'red' | 'purple';
   isClickable?: boolean;
   onClick?: () => void;
   userRole?: string[];

@@ -2,16 +2,18 @@
 
 import React from 'react'
 import Header from '@/components/Header'
+import { usePathname } from 'next/navigation'
 import { SessionProvider } from 'next-auth/react'
 import '@/app/globals.css'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const currentPath = usePathname()
   return (
     <html lang="en">
       <body>
         <SessionProvider>
           <div className="min-h-screen flex flex-col">
-            <Header />
+            <Header currentPath={currentPath} />
             <main className="flex-grow">
               {children}
             </main>

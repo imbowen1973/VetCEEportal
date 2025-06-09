@@ -52,11 +52,13 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentPath }) => {
   const { data: session, status } = useSession();
+  const debugName = session?.user?.name || session?.user?.email || 'Guest';
+  const debugRoles = session?.user?.roles?.join(', ') || 'No roles';
   const adminRoles = ['AdminFull', 'AdminReadOnly'];
   const fullAdminRoles = ['AdminFull'];
   const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(false);
   
-  const handleLoginClick = (e) => {
+  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoginModalOpen(true);
   };
@@ -74,12 +76,13 @@ const Header: React.FC<HeaderProps> = ({ currentPath }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-gray-900">VetCEE Portal</Link>
-          <nav className="flex space-x-4">
+          <div className="flex items-center space-x-4">
+            <nav className="flex space-x-4">
             {/* Public links (no authentication required) */}
-            <NavLink 
-              href="/" 
-              label="Home" 
-              active={currentPath === '/'} 
+            <NavLink
+              href="/"
+              label="Home"
+              active={currentPath === '/'}
               requireAuth={false}
             />
             
@@ -149,6 +152,10 @@ const Header: React.FC<HeaderProps> = ({ currentPath }) => {
               </button>
             )}
           </nav>
+            <span className="px-2 py-1 rounded text-xs text-gray-500 bg-gray-100 whitespace-nowrap">
+              {debugName} ({debugRoles})
+            </span>
+          </div>
         </div>
       </div>
       

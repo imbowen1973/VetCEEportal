@@ -9,7 +9,7 @@ const PublicHeader: React.FC = () => {
   const { data: session, status } = useSession();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   
-  const handleLoginClick = (e) => {
+  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Prevent default link behavior
     setIsLoginModalOpen(true);
   };

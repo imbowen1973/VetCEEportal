@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
         data: {
           action: 'CREATE_USER',
           details: `Admin created user ${email} with roles ${userData.roles.join(', ')}`,
-          userId: verificationToken.invitedBy || null,
+          userId: verificationToken.invitedBy!,
           targetId: user.id,
         },
       });
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
         data: {
           action: 'INVITE_TEAM_MEMBER',
           details: `User ${email} joined organization via invitation`,
-          userId: verificationToken.invitedBy,
+          userId: verificationToken.invitedBy!,
           targetId: user.id,
         },
       });

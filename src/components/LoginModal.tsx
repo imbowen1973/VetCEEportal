@@ -176,8 +176,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       if (exists) {
         // Existing user flow - send OTP directly
         console.log('Existing user, sending OTP to:', email)
+        let result: any
         try {
-          const result = await signIn('email', {
+          result = await signIn('email', {
             email,
             redirect: false,
             callbackUrl: window.location.pathname
@@ -242,7 +243,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
       // Send OTP for account creation (10 min expiry)
       // Use try-catch to handle any errors from signIn
       try {
-        const result = await signIn('email', {
+        let result: any = await signIn('email', {
           email,
           redirect: false, // Important: prevent automatic redirect
           callbackUrl: window.location.pathname // Stay on current page
@@ -299,7 +300,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
   // Handle authentication errors
   const handleAuthError = (result: any) => {
     if (result.error === "UserNotFound" || result.error.includes("user") || result.error.includes("email")) {
-      setError(`We couldn't find an account with that email address. Please check your spelling or try another email.`)
+      setError(`We couldn&apos;t find an account with that email address. Please check your spelling or try another email.`)
     } else {
       setError(`Authentication error: ${result.error}`)
     }
@@ -435,7 +436,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
         {step === 'confirm' && (
           <>
             <p className="mb-6 text-gray-600">
-              We couldn't find an account with this email. Please confirm your email to create a new account.
+              We couldn&apos;t find an account with this email. Please confirm your email to create a new account.
             </p>
             
             <form onSubmit={handleConfirmSubmit}>
@@ -522,12 +523,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
                 ? "Please check your email for a sign-in link."
                 : "Please check your email to create your account."}
             </p>
-            {jwtToken && (
-              <div className="mb-4 p-2 bg-gray-100 rounded break-all text-left">
-                <p className="font-semibold mb-1">Development JWT:</p>
-                <pre className="whitespace-pre-wrap break-all text-xs">{jwtToken}</pre>
-              </div>
-            )}
             <button
               onClick={onClose}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -539,9 +534,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onEmailSent })
         
         {step === 'initial' && (
           <div className="mt-6 pt-4 border-t border-gray-200 text-center text-sm text-gray-600">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <span className="text-blue-600">
-              Enter your email above and we'll help you create one.
+              Enter your email above and we&apos;ll help you create one.
             </span>
           </div>
         )}

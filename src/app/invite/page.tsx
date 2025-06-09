@@ -84,7 +84,7 @@ export default function Invite() {
             
             <p className="text-sm text-gray-600">
               Your colleague will receive an email with instructions to join your organization.
-              They will have access to your organization's courses and be able to submit new courses.
+              They will have access to your organization&apos;s courses and be able to submit new courses.
             </p>
             
             <button

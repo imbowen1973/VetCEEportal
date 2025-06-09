@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const session = await auth();
     
     // Check if user is authenticated and has Admin role
-    if (!session?.user?.roles?.some(role => ['AdminFull', 'AdminReadOnly'].includes(role))) {
+    if (!session?.user?.roles?.some((role: string) => ['AdminFull', 'AdminReadOnly'].includes(role))) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     

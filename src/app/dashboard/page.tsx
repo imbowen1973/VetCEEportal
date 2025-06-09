@@ -22,17 +22,17 @@ import {
 } from 'react-icons/fi';
 
 // Error boundary component
-class DashboardErrorBoundary extends React.Component {
-  constructor(props) {
+class DashboardErrorBoundary extends React.Component<any, any> {
+  constructor(props: any) {
     super(props);
     this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: any) {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: any, errorInfo: any) {
     console.error("Dashboard error:", error, errorInfo);
   }
 
@@ -192,40 +192,30 @@ export default function Dashboard() {
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Admin Overview</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <BiCard 
-                title="Users" 
-                value="156" 
-                change="+12%" 
-                icon={<FiUsers className="w-6 h-6" />} 
-                href={isFullAdmin ? "/users" : undefined}
+              <BiCard
+                title="Users"
+                value="156"
+                icon={<FiUsers className="w-6 h-6" />}
               />
-              <BiCard 
-                title="Applications" 
-                value="28" 
-                change="+5%" 
-                icon={<FiFileText className="w-6 h-6" />} 
-                href={isFullAdmin ? "/applications" : undefined}
+              <BiCard
+                title="Applications"
+                value="28"
+                icon={<FiFileText className="w-6 h-6" />}
               />
-              <BiCard 
-                title="Invoices" 
-                value="€12,450" 
-                change="+18%" 
-                icon={<FiDollarSign className="w-6 h-6" />} 
-                href={isFullAdmin ? "/invoices" : undefined}
+              <BiCard
+                title="Invoices"
+                value="€12,450"
+                icon={<FiDollarSign className="w-6 h-6" />}
               />
-              <BiCard 
-                title="Reviews" 
-                value="42" 
-                change="-3%" 
-                icon={<FiCheckSquare className="w-6 h-6" />} 
-                href={isFullAdmin ? "/reviews" : undefined}
+              <BiCard
+                title="Reviews"
+                value="42"
+                icon={<FiCheckSquare className="w-6 h-6" />}
               />
-              <BiCard 
-                title="Courses" 
-                value="75" 
-                change="+8%" 
-                icon={<FiBook className="w-6 h-6" />} 
-                href={isFullAdmin ? "/courses" : undefined}
+              <BiCard
+                title="Courses"
+                value="75"
+                icon={<FiBook className="w-6 h-6" />}
               />
             </div>
           </div>
@@ -238,9 +228,9 @@ export default function Dashboard() {
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Analytics</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <ChartCard 
-                title="Applications by Month" 
-                type="bar"
+              <ChartCard
+                title="Applications by Month"
+                chartType="bar"
                 data={{
                   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                   datasets: [
@@ -252,9 +242,9 @@ export default function Dashboard() {
                   ]
                 }}
               />
-              <ChartCard 
-                title="Course Categories" 
-                type="pie"
+              <ChartCard
+                title="Course Categories"
+                chartType="pie"
                 data={{
                   labels: ['Small Animal', 'Large Animal', 'Exotic', 'General Practice', 'Specialty'],
                   datasets: [
