@@ -188,8 +188,8 @@ export const authOptions: NextAuthOptions = {
   jwt: {
     // Maximum age of the token
     maxAge: 24 * 60 * 60, // 24 hours
-    
-    // Custom encode function with error handling for oidc-token-hash issues
+
+    // Custom encode function with role-based expiration
     async encode({ secret, token, maxAge }) {
       try {
         // Use the built-in JWT signing from jose
@@ -198,11 +198,15 @@ export const authOptions: NextAuthOptions = {
         // Convert secret to Uint8Array for jose
         const secretBytes = new TextEncoder().encode(String(secret));
         
+        const roles = (token as any).roles as string[] | undefined;
+        const isAdmin = roles?.includes('AdminFull') || roles?.includes('AdminReadOnly');
+        const expSeconds = Math.floor(Date.now() / 1000) + (isAdmin ? 8 * 60 * 60 : (maxAge || 24 * 60 * 60));
+
         // Create and sign the JWT with proper algorithm
         return await new SignJWT(token as Record<string, any>)
           .setProtectedHeader({ alg: 'HS256' })
           .setIssuedAt()
-          .setExpirationTime(Math.floor(Date.now() / 1000) + (maxAge || 24 * 60 * 60))
+          .setExpirationTime(expSeconds)
           .setJti(crypto.randomUUID())
           .sign(secretBytes);
       } catch (error) {

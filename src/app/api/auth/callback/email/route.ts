@@ -101,11 +101,14 @@ export async function GET(request: NextRequest) {
     }
     
     // Create a session for the user
+    const isAdmin = user.roles.includes('AdminFull') || user.roles.includes('AdminReadOnly');
+    const sessionExpiry = new Date(Date.now() + (isAdmin ? 8 : 24) * 60 * 60 * 1000);
+
     const session = await prisma.session.create({
       data: {
         sessionToken: `${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`,
         userId: user.id,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+        expires: sessionExpiry,
       },
     });
     
@@ -137,7 +140,7 @@ export async function GET(request: NextRequest) {
       httpOnly: true,
       path: '/',
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 24 * 60 * 60, // 24 hours
+      maxAge: isAdmin ? 8 * 60 * 60 : 24 * 60 * 60,
     });
     
     return response;
