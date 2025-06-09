@@ -118,11 +118,11 @@ const Header: React.FC<HeaderProps> = ({ currentPath }) => {
               requiredRoles={adminRoles}
               requireAuth={true}
             />
-            <NavLink 
-              href="/cms" 
-              label="CMS" 
-              active={currentPath === '/cms'} 
-              requiredRoles={fullAdminRoles}
+            <NavLink
+              href="/cms"
+              label="CMS"
+              active={currentPath === '/cms'}
+              requiredRoles={adminRoles}
               requireAuth={true}
             />
             <NavLink 
